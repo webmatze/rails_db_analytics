@@ -1,0 +1,68 @@
+<div class="bg-white shadow rounded-lg p-6">
+  <div class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900"><%= @saved_report.name %></h1>
+      <p class="text-gray-600 mt-1"><%= @saved_report.description %></p>
+    </div>
+    <div class="flex space-x-3">
+      <%= button_to refresh_saved_report_path(@saved_report), method: :post, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+        </svg>
+        Refresh Data
+      <% end %>
+      <%= link_to saved_reports_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+        Back to Reports
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <div class="bg-gray-50 px-4 py-2 rounded-t-lg border border-gray-200">
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg font-medium text-gray-900">Report Results</h3>
+        <span class="text-sm text-gray-500">
+          Last updated: <%= time_ago_in_words(@saved_report.last_run_at) if @saved_report.last_run_at %> ago
+        </span>
+      </div>
+    </div>
+
+    <div class="border-l border-r border-b border-gray-200 rounded-b-lg bg-white">
+      <div class="p-4">
+        <% if @saved_report.report_data.present? %>
+          <div class="space-y-4">
+            <% @saved_report.report_data.each do |key, value| %>
+              <div>
+                <h4 class="text-sm font-medium text-gray-700 mb-1"><%= key.to_s.titleize %></h4>
+                <% if value.is_a?(Array) %>
+                  <ul class="list-disc list-inside text-gray-600 ml-4">
+                    <% value.each do |item| %>
+                      <li><%= item %></li>
+                    <% end %>
+                  </ul>
+                <% elsif value.is_a?(Hash) %>
+                  <div class="ml-4">
+                    <% value.each do |k, v| %>
+                      <div class="text-gray-600">
+                        <span class="font-medium"><%= k.to_s.titleize %>:</span> <%= v %>
+                      </div>
+                    <% end %>
+                  </div>
+                <% else %>
+                  <div class="text-gray-600 ml-4"><%= value %></div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-gray-500 text-center py-4">
+            No data available. Click "Refresh Data" to generate report results.
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

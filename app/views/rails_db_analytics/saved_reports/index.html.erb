@@ -1,0 +1,70 @@
+<div class="bg-white shadow rounded-lg p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Data Reports</h1>
+    <button data-action="click->analytics#openModal" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+      New Report
+    </button>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4">
+    <% @saved_reports.each do |report| %>
+      <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+        <div class="flex justify-between items-start">
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900"><%= report.name %></h3>
+            <p class="text-sm text-gray-600 mt-1"><%= report.description %></p>
+          </div>
+          <div class="flex space-x-2">
+            <%= button_to refresh_saved_report_path(report), method: :post, class: "text-blue-600 hover:text-blue-800" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+            <%= link_to saved_report_path(report), class: "text-gray-600 hover:text-gray-800" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+          </div>
+        </div>
+        <div class="mt-2 text-sm text-gray-500">
+          Last updated: <%= time_ago_in_words(report.last_run_at) if report.last_run_at %> ago
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- New Report Modal -->
+<div id="new-report-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center" data-controller="modal">
+  <div class="bg-white rounded-lg p-6 max-w-lg w-full">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold">Generate New Report</h2>
+      <button data-action="modal#close" class="text-gray-500 hover:text-gray-700">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <%= form_tag generate_saved_reports_path, method: :post, class: "space-y-4" do %>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Report Description</label>
+        <div class="mt-1">
+          <%= text_area_tag :description, nil, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", rows: 4, placeholder: "Describe what data you want to analyze..." %>
+        </div>
+        <p class="mt-1 text-sm text-gray-500">
+          Describe the data you want to analyze and what insights you're looking for. The AI will generate a report based on your description.
+        </p>
+      </div>
+
+      <div class="flex justify-end space-x-3">
+        <button type="button" data-action="modal#close" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          Cancel
+        </button>
+        <%= submit_tag "Generate Report", class: "bg-blue-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    <% end %>
+  </div>
+</div>

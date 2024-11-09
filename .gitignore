@@ -9,3 +9,10 @@
 
 # rspec failure tracking
 .rspec_status
+node_modules/
+spec/dummy/tmp/
+spec/dummy/log/
+spec/dummy/config/tailwind.config.js
+spec/dummy/storage/
+.byebug_history
+spec/dummy/app/assets/builds/tailwind.css

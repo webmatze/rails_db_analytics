@@ -8,34 +8,41 @@ Gem::Specification.new do |spec|
   spec.authors = ["Mathias Karstädt"]
   spec.email = ["mathias.karstaedt@gmail.com"]
 
-  spec.summary = "TODO: Write a short summary, because RubyGems requires one."
-  spec.description = "TODO: Write a longer description or delete this line."
-  spec.homepage = "TODO: Put your gem's website or public repo URL here."
+  spec.summary = "Rails engine for database analytics using LLM"
+  spec.description = "Provides database analytics functionality by analyzing schema.rb and generating reports using LLM technology"
+  spec.homepage = "https://github.com/webmatze/rails_db_analytics"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
 
-  spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
-
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata["source_code_uri"] = "https://github.com/webmatze/rails_db_analytics"
+  spec.metadata["changelog_uri"] = "https://github.com/webmatze/rails_db_analytics/blob/main/CHANGELOG.md"
 
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-  gemspec = File.basename(__FILE__)
-  spec.files = IO.popen(%w[git ls-files -z], chdir: __dir__, err: IO::NULL) do |ls|
-    ls.readlines("\x0", chomp: true).reject do |f|
-      (f == gemspec) ||
-        f.start_with?(*%w[bin/ test/ spec/ features/ .git .github appveyor Gemfile])
-    end
-  end
-  spec.bindir = "exe"
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  # Uncomment to register a new dependency of your gem
-  # spec.add_dependency "example-gem", "~> 1.0"
+  # Core dependencies
+  spec.add_dependency "rails", ">= 7.0.0"
+  spec.add_dependency "anthropic", "~> 0.3"
+  spec.add_dependency "view_component", "~> 3.0"
 
-  # For more information and examples about making a new gem, check out our
-  # guide at: https://bundler.io/guides/creating_gem.html
+  # Asset dependencies
+  spec.add_dependency "tailwindcss-rails", "~> 3.0"
+  spec.add_dependency "stimulus-rails", "~> 1.3"
+  spec.add_dependency "importmap-rails", "~> 1.2"
+  spec.add_dependency "propshaft", "~> 1.1"
+
+  # Development dependencies
+  spec.add_development_dependency "rspec-rails", "~> 6.0"
+  spec.add_development_dependency "factory_bot_rails", "~> 6.2"
+  spec.add_development_dependency "sqlite3", "~> 1.4"
+  spec.add_development_dependency "rubocop", "~> 1.50"
+  spec.add_development_dependency "rubocop-rails", "~> 2.19"
+  spec.add_development_dependency "rubocop-rspec", "~> 2.22"
+  spec.add_development_dependency "brakeman", "~> 6.0"
+  spec.add_development_dependency "bundler-audit", "~> 0.9"
+  spec.add_development_dependency "simplecov", "~> 0.22"
+  spec.add_development_dependency "vcr", "~> 6.1"
+  spec.add_development_dependency "webmock", "~> 3.18"
+  spec.add_development_dependency "pry-byebug", "~> 3.10"
+  spec.add_development_dependency "yard", "~> 0.9"
 end
