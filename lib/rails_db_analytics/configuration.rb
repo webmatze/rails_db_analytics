@@ -17,7 +17,7 @@ module RailsDbAnalytics
       @llm_model = "claude-3-sonnet-20240229"
       @max_tokens = 4096
       @temperature = 0.7
-      @schema_path = Rails.root.join('db/schema.rb')
+      @schema_path = Rails.root.join("db/schema.rb")
       @cache_store = Rails.cache
       @cache_responses = Rails.env.production?
       @cache_ttl = 1.hour

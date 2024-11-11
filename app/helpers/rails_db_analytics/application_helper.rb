@@ -14,6 +14,7 @@ module RailsDbAnalytics
 
     def format_timestamp(timestamp)
       return unless timestamp
+
       time_ago_in_words(timestamp) + " ago"
     end
 

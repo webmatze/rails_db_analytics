@@ -26,7 +26,7 @@ module RailsDbAnalytics
     config.generators do |g|
       g.test_framework :rspec
       g.fixture_replacement :factory_bot
-      g.factory_bot dir: 'spec/factories'
+      g.factory_bot dir: "spec/factories"
     end
 
     config.to_prepare do
@@ -53,12 +53,10 @@ module RailsDbAnalytics
   end
 
   # Helper method to handle LLM response caching
-  def self.with_caching(description)
+  def self.with_caching(description, &block)
     return yield unless configuration.cache_responses
 
     key = cache_key(description)
-    configuration.cache_store.fetch(key, expires_in: configuration.cache_ttl) do
-      yield
-    end
+    configuration.cache_store.fetch(key, expires_in: configuration.cache_ttl, &block)
   end
 end

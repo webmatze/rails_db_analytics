@@ -7,4 +7,5 @@ pin "@kurkle/color", to: "https://ga.jspm.io/npm:@kurkle/color@0.3.2/dist/color.
 pin "application", to: "rails_db_analytics/application.js", preload: true
 
 # pin_all_from RailsDbAnalytics::Engine.root.join("app/assets/javascript")
-pin_all_from RailsDbAnalytics::Engine.root.join("app/assets/javascript/rails_db_analytics/controllers"), under: "controllers", to: "rails_db_analytics/controllers"
+pin_all_from RailsDbAnalytics::Engine.root.join("app/assets/javascript/rails_db_analytics/controllers"),
+             under: "controllers", to: "rails_db_analytics/controllers"

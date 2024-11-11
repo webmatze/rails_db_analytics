@@ -19,18 +19,18 @@ module RailsDbAnalytics
 
       if @saved_report.save
         @saved_report.refresh_data!
-        redirect_to @saved_report, notice: 'Report was successfully created.'
+        redirect_to @saved_report, notice: "Report was successfully created."
       else
         render :new
       end
     end
 
     def generate
-      schema = Rails.root.join('db/schema.rb').read
+      schema = Rails.root.join("db/schema.rb").read
       description = params[:description]
 
       if description.blank?
-        flash[:error] = 'Description cannot be blank'
+        flash[:error] = "Description cannot be blank"
         redirect_to new_saved_report_path and return
       end
 
@@ -55,6 +55,7 @@ module RailsDbAnalytics
         # Extract code block with error handling
         code_block_match = report_class_content.match(/```ruby\n(.*?)\n```/m)
         raise "Invalid response format from LLM" unless code_block_match
+
         code_block = code_block_match[1]
         Rails.logger.info("Generated report class code:\n#{code_block}")
 
@@ -74,15 +75,14 @@ module RailsDbAnalytics
         Rails.logger.info("Saved report: #{@saved_report.inspect}")
         @saved_report.refresh_data!
 
-        redirect_to @saved_report, notice: 'Report was successfully generated.'
-
+        redirect_to @saved_report, notice: "Report was successfully generated."
       rescue Anthropic::Error => e
         Rails.logger.error("Anthropic API error: #{e.message}")
-        flash[:error] = 'Failed to generate report due to AI service error. Please try again later.'
+        flash[:error] = "Failed to generate report due to AI service error. Please try again later."
         redirect_to saved_reports_path
       rescue StandardError => e
         Rails.logger.error("Report generation error: #{e.message}")
-        flash[:error] = 'An error occurred while generating the report. Please try again.'
+        flash[:error] = "An error occurred while generating the report. Please try again."
         redirect_to saved_reports_path
       end
     end
@@ -90,7 +90,7 @@ module RailsDbAnalytics
     def refresh
       @saved_report = SavedReport.find(params[:id])
       @saved_report.refresh_data!
-      redirect_to @saved_report, notice: 'Report data was successfully refreshed.'
+      redirect_to @saved_report, notice: "Report data was successfully refreshed."
     end
 
     private

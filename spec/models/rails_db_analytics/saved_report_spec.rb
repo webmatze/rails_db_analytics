@@ -80,8 +80,12 @@ RSpec.describe RailsDbAnalytics::SavedReport do
 
       it "doesn't update the report data" do
         saved_report.update!(report_data: { old: "data" })
-        expect { saved_report.refresh_data! rescue nil }
-          .not_to change { saved_report.reload.report_data }
+        expect do
+          saved_report.refresh_data!
+        rescue StandardError
+          nil
+        end
+          .not_to(change { saved_report.reload.report_data })
       end
     end
   end

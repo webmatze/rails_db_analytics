@@ -4,7 +4,7 @@ module RailsDbAnalytics
   class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
 
-    layout 'rails_db_analytics/application'
+    layout "rails_db_analytics/application"
 
     private
 

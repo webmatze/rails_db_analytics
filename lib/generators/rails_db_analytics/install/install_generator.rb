@@ -3,10 +3,10 @@
 module RailsDbAnalytics
   module Generators
     class InstallGenerator < Rails::Generators::Base
-      source_root File.expand_path('templates', __dir__)
+      source_root File.expand_path("templates", __dir__)
 
       def create_initializer
-        template 'initializer.rb', 'config/initializers/rails_db_analytics.rb'
+        template "initializer.rb", "config/initializers/rails_db_analytics.rb"
       end
 
       def mount_engine
@@ -14,7 +14,7 @@ module RailsDbAnalytics
       end
 
       def copy_migrations
-        rake 'rails_db_analytics:install:migrations'
+        rake "rails_db_analytics:install:migrations"
       end
 
       def add_anthropic_credentials
@@ -28,11 +28,11 @@ module RailsDbAnalytics
       def create_tailwind_config
         @engines_paths = RailsDbAnalytics.configuration.tailwind_content
 
-        template 'config/tailwind.config.js', 'config/tailwind.config.js'
+        template "config/tailwind.config.js", "config/tailwind.config.js"
       end
 
       def show_readme
-        readme 'README.md'
+        readme "README.md"
       end
     end
   end

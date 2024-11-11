@@ -8,7 +8,7 @@ require_relative "../../../app/components/rails_db_analytics/report_data_compone
 
 RSpec.describe RailsDbAnalytics::ReportDataComponent, type: :component do
   let(:report) do
-    double = instance_double(
+    instance_double(
       RailsDbAnalytics::SavedReport,
       report_data: report_data,
       last_run_at: Time.current
@@ -92,7 +92,7 @@ RSpec.describe RailsDbAnalytics::ReportDataComponent, type: :component do
 
     context "with last_run_at timestamp" do
       let(:report_data) { { count: 42 } }
-      let(:last_run_at) { Time.current - 1.hour }
+      let(:last_run_at) { 1.hour.ago }
 
       before do
         allow(report).to receive(:last_run_at).and_return(last_run_at)
@@ -124,7 +124,7 @@ RSpec.describe RailsDbAnalytics::ReportDataComponent, type: :component do
         canvas = page.find("canvas[data-chart-target='canvas']")
         chart_data = JSON.parse(canvas["data-chart-data"])
 
-        expect(chart_data["labels"]).to eq(["January", "February", "March"])
+        expect(chart_data["labels"]).to eq(%w[January February March])
         expect(chart_data["datasets"].first["data"]).to eq([100, 150, 200])
       end
     end
@@ -139,7 +139,7 @@ RSpec.describe RailsDbAnalytics::ReportDataComponent, type: :component do
       it "does not render chart" do
         render_inline(described_class.new(report: report))
 
-        expect(page).not_to have_css("[data-controller='chart']")
+        expect(page).to have_no_css("[data-controller='chart']")
       end
     end
   end

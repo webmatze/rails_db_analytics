@@ -58,7 +58,7 @@ module RailsDbAnalytics
     def process_response(content)
       # Clean up the response to ensure it's valid Ruby code
       content = content.strip
-      content = content.gsub(/```ruby\n?/, '').gsub(/```\n?/, '')
+      content = content.gsub(/```ruby\n?/, "").gsub(/```\n?/, "")
 
       # Ensure the class inherits from our base class
       unless content.include?("< RailsDbAnalytics::DataReport")

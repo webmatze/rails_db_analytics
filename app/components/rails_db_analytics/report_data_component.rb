@@ -44,7 +44,7 @@ module RailsDbAnalytics
     end
 
     def chart_data?
-      @report.report_data.any? { |k, v| numeric_data?(v) }
+      @report.report_data.any? { |_k, v| numeric_data?(v) }
     end
 
     def numeric_data?(data)

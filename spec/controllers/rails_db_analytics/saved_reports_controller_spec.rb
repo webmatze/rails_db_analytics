@@ -59,9 +59,9 @@ RSpec.describe RailsDbAnalytics::SavedReportsController, type: :controller do
 
     context "with valid parameters" do
       it "creates a new report" do
-        expect {
+        expect do
           post :generate, params: valid_params
-        }.to change(RailsDbAnalytics::SavedReport, :count).by(1)
+        end.to change(RailsDbAnalytics::SavedReport, :count).by(1)
       end
 
       it "generates report class using LLM" do
@@ -91,9 +91,9 @@ RSpec.describe RailsDbAnalytics::SavedReportsController, type: :controller do
       let(:invalid_params) { { description: "" } }
 
       it "does not create a new report" do
-        expect {
+        expect do
           post :generate, params: invalid_params
-        }.not_to change(RailsDbAnalytics::SavedReport, :count)
+        end.not_to change(RailsDbAnalytics::SavedReport, :count)
       end
 
       it "redirects back with error" do
@@ -108,9 +108,9 @@ RSpec.describe RailsDbAnalytics::SavedReportsController, type: :controller do
     let(:report) { create(:saved_report) }
 
     it "refreshes the report data" do
-      expect {
+      expect do
         post :refresh, params: { id: report.id }
-      }.to change { report.reload.last_run_at }
+      end.to(change { report.reload.last_run_at })
     end
 
     it "redirects to the report" do

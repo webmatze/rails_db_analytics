@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-debugger
 FactoryBot.define do
   factory :saved_report, class: "RailsDbAnalytics::SavedReport" do
     sequence(:name) { |n| "Report #{n}" }
@@ -53,12 +52,12 @@ FactoryBot.define do
       report_data do
         dates = (1..7).map { |n| n.days.ago.to_date }
         {
-          daily_metrics: dates.map { |date|
+          daily_metrics: dates.map do |date|
             {
               date: date.to_s,
               value: rand(100)
             }
-          }
+          end
         }
       end
     end

@@ -10,5 +10,5 @@ RailsDbAnalytics::Engine.routes.draw do
     end
   end
 
-  root to: 'saved_reports#index'
+  root to: "saved_reports#index"
 end

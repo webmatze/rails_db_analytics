@@ -21,7 +21,7 @@ end
 RuboCop::RakeTask.new(:rubocop) do |t|
   t.options = ["--display-cop-names", "--autocorrect"]
   t.formatters = ["progress"]
-  t.paths = ["lib", "app", "spec"]
+  t.paths = %w[lib app spec]
 end
 
 # YARD documentation tasks
@@ -48,7 +48,7 @@ task :bundle_audit do
 end
 
 # Combined quality checks
-task quality: [:rubocop, :spec, :brakeman, :bundle_audit]
+task quality: %i[rubocop spec brakeman bundle_audit]
 
 # Default task
 task default: :spec
@@ -58,19 +58,19 @@ namespace :release do
   desc "Prepare for a new release"
   task :prepare do
     # Update version
-    version = ENV["VERSION"]
+    version = ENV.fetch("VERSION", nil)
     raise "Please specify VERSION=x.x.x" unless version
 
     # Update version file
     version_file = "lib/rails_db_analytics/version.rb"
     content = File.read(version_file)
-    content.gsub!(/VERSION = ".*"/, %{VERSION = "#{version}"})
+    content.gsub!(/VERSION = ".*"/, %(VERSION = "#{version}"))
     File.write(version_file, content)
 
     # Update changelog
     changelog_file = "CHANGELOG.md"
     changelog = File.read(changelog_file)
-    changelog = "## [#{version}] - #{Time.now.strftime("%Y-%m-%d")}\n\n" + changelog
+    changelog = "## [#{version}] - #{Time.now.strftime('%Y-%m-%d')}\n\n" + changelog
     File.write(changelog_file, changelog)
 
     puts "Prepared release #{version}"

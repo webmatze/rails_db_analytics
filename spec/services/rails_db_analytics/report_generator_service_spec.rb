@@ -60,10 +60,8 @@ RSpec.describe RailsDbAnalytics::ReportGeneratorService do
 
     allow(RailsDbAnalytics.configuration).to receive(:anthropic_client).and_return(
       instance_double(Anthropic::Client,
-        messages: instance_double('Messages',
-          create: instance_double('Response', content: expected_report_class)
-        )
-      )
+                      messages: instance_double("Messages",
+                                                create: instance_double("Response", content: expected_report_class)))
     )
   end
 
@@ -114,7 +112,7 @@ RSpec.describe RailsDbAnalytics::ReportGeneratorService do
       before do
         allow(RailsDbAnalytics.configuration.anthropic_client.messages)
           .to receive(:create)
-          .and_return(instance_double('Response', content: invalid_response))
+          .and_return(instance_double("Response", content: invalid_response))
       end
 
       it "raises an error", :vcr do
