@@ -41,10 +41,10 @@ module RailsDbAnalytics
             model: "claude-3-sonnet-20240229",
             max_tokens: 4096,
             temperature: 0.7,
-            system: "You are a Ruby on Rails expert. Generate a DataReport subclass based on the schema and description provided. The class should implement report_data to return an ActiveRecord::Relation and format_data to return a hash of the analyzed data.",
+            system: system_prompt,
             messages: [{
               role: "user",
-              content: "Generate a DataReport subclass for the following description: #{description}\n\nSchema:\n#{schema}"
+              content: "Generate a RailsDbAnalytics::DataReport subclass for the following description: #{description}\n\nRailsDbAnalytics::DataReport source code:\n#{data_report_class_source}\n\nSchema:\n#{schema}"
             }]
           }
         )
@@ -57,13 +57,13 @@ module RailsDbAnalytics
         raise "Invalid response format from LLM" unless code_block_match
 
         code_block = code_block_match[1]
-        Rails.logger.info("Generated report class code:\n#{code_block}")
+        Rails.logger.debug("Generated report class code:\n#{code_block}")
 
         # Create the report class with a valid constant name
         # TODO: This is unsafe, we should use a sandboxed environment
-        report_class = eval(code_block)
-        report_class_name = report_class.name
-        Rails.logger.info("Report class name: #{report_class_name}")
+        eval(code_block)  # Just evaluate the code to define the class
+        report_class_name = code_block.match(/class\s+([^\s<]+)/)[1]  # Extract class name from code
+        Rails.logger.debug("Report class name: #{report_class_name}")
 
         # Create and save the report
         @saved_report = SavedReport.create!(
@@ -72,7 +72,7 @@ module RailsDbAnalytics
           report_class_name: report_class_name,
           report_class: code_block
         )
-        Rails.logger.info("Saved report: #{@saved_report.inspect}")
+        Rails.logger.debug("Saved report: #{@saved_report.inspect}")
         @saved_report.refresh_data!
 
         redirect_to @saved_report, notice: "Report was successfully generated."
@@ -95,8 +95,38 @@ module RailsDbAnalytics
 
     private
 
+    def data_report_class_source
+      # Get the source location of the class
+      source_location = RailsDbAnalytics::DataReport.instance_method(:initialize).source_location
+
+      # Read the file and extract the class definition
+      if source_location
+        file_path = source_location[0]
+        line_number = source_location[1]
+
+        # Read the file and display the relevant lines
+        source_code = File.readlines(file_path)[line_number - 5..line_number + 20].join
+        Rails.logger.debug("Source code for RailsDbAnalytics::DataReport:\n#{source_code}")
+        source_code
+      else
+        Rails.logger.error("Source location not found.")
+        nil
+      end
+    end
+
     def saved_report_params
       params.require(:saved_report).permit(:name, :description)
+    end
+
+    def system_prompt
+      @system_prompt ||= begin
+        system_prompt_file = Engine.root.join("config/rails_db_analytics/prompts/data_report_generator.txt")
+        raise "System prompt file not found: #{system_prompt_file}" unless system_prompt_file.exist?
+
+        prompt = File.read(system_prompt_file.to_s)
+        prompt.gsub!("{{database_name}}", ActiveRecord::Base.connection.adapter_name.downcase + ' ' + ActiveRecord::Base.connection.database_version.to_s)
+        prompt
+      end
     end
   end
 end

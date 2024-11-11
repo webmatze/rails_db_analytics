@@ -5,9 +5,11 @@ module RailsDbAnalytics
     validates :name, presence: true
     validates :description, presence: true
     validates :report_class, presence: true
+    validates :report_class_name, presence: true
 
     def report_instance
-      report_class.constantize.new
+      eval(report_class)
+      report_class_name.constantize.new
     end
 
     def refresh_data!
