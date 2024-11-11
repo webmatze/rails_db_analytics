@@ -8,6 +8,7 @@ gemspec
 gem "rake", "~> 13.0"
 gem "rspec", "~> 3.0"
 gem "rubocop", "~> 1.50"
+gem "rubocop-performance", "~> 1.18"
 gem "puma", "~> 6.0"
 
 # asset pipeline

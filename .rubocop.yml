@@ -93,26 +93,26 @@ RSpec/NestedGroups:
   Max: 5
 
 # Performance Configurations
-Performance/AncestorsInclude:
-  Enabled: true
+# Performance/AncestorsInclude:
+#   Enabled: true
 
-Performance/BigDecimalWithNumericArgument:
-  Enabled: true
+# Performance/BigDecimalWithNumericArgument:
+#   Enabled: true
 
-Performance/RedundantSortBlock:
-  Enabled: true
+# Performance/RedundantSortBlock:
+#   Enabled: true
 
-Performance/ReverseFirst:
-  Enabled: true
+# Performance/ReverseFirst:
+#   Enabled: true
 
-Performance/SortReverse:
-  Enabled: true
+# Performance/SortReverse:
+#   Enabled: true
 
-Performance/Squeeze:
-  Enabled: true
+# Performance/Squeeze:
+#   Enabled: true
 
-Performance/StringReplacement:
-  Enabled: true
+# Performance/StringReplacement:
+#   Enabled: true
 
 # Security Configurations
 Security/Eval:

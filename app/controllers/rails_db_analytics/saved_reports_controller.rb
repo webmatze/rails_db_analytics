@@ -49,25 +49,29 @@ module RailsDbAnalytics
           }
         )
 
-        report_class_name = "RailsDbAnalytics::GeneratedReport#{Time.current.to_i}"
+        # report_class_name = "RailsDbAnalytics::GeneratedReport#{Time.current.strftime('%Y%m%d%H%M%S')}"
         report_class_content = message["content"][0]["text"]
 
         # Extract code block with error handling
         code_block_match = report_class_content.match(/```ruby\n(.*?)\n```/m)
         raise "Invalid response format from LLM" unless code_block_match
         code_block = code_block_match[1]
+        Rails.logger.info("Generated report class code:\n#{code_block}")
 
-        # Create the report class
-        Object.const_set(report_class_name, Class.new(DataReport) do
-          class_eval(code_block)
-        end)
+        # Create the report class with a valid constant name
+        # TODO: This is unsafe, we should use a sandboxed environment
+        report_class = eval(code_block)
+        report_class_name = report_class.name
+        Rails.logger.info("Report class name: #{report_class_name}")
 
         # Create and save the report
         @saved_report = SavedReport.create!(
           name: description.truncate(50),
           description: description,
-          report_class: report_class_name
+          report_class_name: report_class_name,
+          report_class: code_block
         )
+        Rails.logger.info("Saved report: #{@saved_report.inspect}")
         @saved_report.refresh_data!
 
         redirect_to @saved_report, notice: 'Report was successfully generated.'
