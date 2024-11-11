@@ -9,9 +9,7 @@ module RailsDbAnalytics
     private
 
     def anthropic_client
-      @anthropic_client ||= Anthropic::Client.new(
-        api_key: Rails.application.credentials.anthropic_api_key
-      )
+      RailsDbAnalytics.configuration.anthropic_client
     end
   end
 end

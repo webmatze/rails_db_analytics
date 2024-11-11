@@ -34,7 +34,7 @@ module RailsDbAnalytics
 
     def anthropic_client
       @anthropic_client ||= Anthropic::Client.new(
-        api_key: anthropic_api_key
+        access_token: anthropic_api_key
       )
     end
 
