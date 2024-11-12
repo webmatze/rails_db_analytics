@@ -1,5 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
-import { Chart } from "chart.js"
+import { Chart, LineController, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js'
+
+// Register the required components
+Chart.register(LineController, CategoryScale, LinearScale, PointElement, LineElement)
 
 export default class extends Controller {
   static targets = ["canvas"]
@@ -76,7 +79,7 @@ export default class extends Controller {
 
   createChart(canvas, data) {
     this.chart = new Chart(canvas, {
-      type: 'bar',
+      type: 'line',
       data,
       options: {
         responsive: true,

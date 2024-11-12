@@ -11,7 +11,7 @@
       <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
         <div class="flex justify-between items-start">
           <div>
-            <h3 class="text-lg font-semibold text-gray-900"><%= report.name %></h3>
+            <h3 class="text-lg font-semibold text-gray-900"><%= link_to report.name, saved_report_path(report) %></h3>
             <p class="text-sm text-gray-600 mt-1"><%= report.description %></p>
           </div>
           <div class="flex space-x-2">

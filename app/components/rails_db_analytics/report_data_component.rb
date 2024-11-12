@@ -59,5 +59,9 @@ module RailsDbAnalytics
         false
       end
     end
+
+    def format_timestamp(timestamp)
+      timestamp.strftime("%B %d, %Y at %I:%M %p")
+    end
   end
 end

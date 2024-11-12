@@ -36,39 +36,7 @@
       </div>
     </div>
 
-    <div class="border-l border-r border-b border-gray-200 rounded-b-lg bg-white">
-      <div class="p-4">
-        <% if @saved_report.report_data.present? %>
-          <div class="space-y-4">
-            <% @saved_report.report_data.each do |key, value| %>
-              <div>
-                <h4 class="text-sm font-medium text-gray-700 mb-1"><%= key.to_s.titleize %></h4>
-                <% if value.is_a?(Array) %>
-                  <ul class="list-disc list-inside text-gray-600 ml-4">
-                    <% value.each do |item| %>
-                      <li><%= item %></li>
-                    <% end %>
-                  </ul>
-                <% elsif value.is_a?(Hash) %>
-                  <div class="ml-4">
-                    <% value.each do |k, v| %>
-                      <div class="text-gray-600">
-                        <span class="font-medium"><%= k.to_s.titleize %>:</span> <%= v %>
-                      </div>
-                    <% end %>
-                  </div>
-                <% else %>
-                  <div class="text-gray-600 ml-4"><%= value %></div>
-                <% end %>
-              </div>
-            <% end %>
-          </div>
-        <% else %>
-          <div class="text-gray-500 text-center py-4">
-            No data available. Click "Refresh Data" to generate report results.
-          </div>
-        <% end %>
-      </div>
-    </div>
+    <%= render RailsDbAnalytics::ReportDataComponent.new(report: @saved_report) %>
+
   </div>
 </div>
