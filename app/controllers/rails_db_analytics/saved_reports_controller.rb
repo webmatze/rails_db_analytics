@@ -93,6 +93,15 @@ module RailsDbAnalytics
       redirect_to @saved_report, notice: "Report data was successfully refreshed."
     end
 
+    def destroy
+      @saved_report = SavedReport.find(params[:id])
+      @saved_report.destroy
+
+      redirect_to saved_reports_path, notice: 'Report was successfully deleted.'
+    rescue ActiveRecord::RecordNotFound
+      redirect_to saved_reports_path, alert: 'Report not found.'
+    end
+
     private
 
     def data_report_class_source
