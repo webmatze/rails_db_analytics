@@ -4,7 +4,7 @@
       <% if chart_data? %>
         <div class="mb-8" data-controller="chart">
           <canvas data-chart-target="canvas"
-                  data-chart-data="<%= @report.report_data.to_json %>"
+                  data-chart-data="<%= @report.report_instance.to_chart_js_data(@report.report_instance.report_data).to_json %>"
                   class="w-full h-64">
           </canvas>
         </div>
@@ -24,8 +24,8 @@
         <p class="mt-1 text-sm text-gray-500">
           Click the refresh button to generate the report data.
         </p>
-        <%= button_to refresh_saved_report_path(@report), method: :post, class: button_classes(:primary) do %>
-          <%= icon(:refresh, class: "mr-2") %>
+        <%= button_to @refresh_url, method: :post, class: button_classes do %>
+          <%= refresh_icon %>
           Refresh Data
         <% end %>
       </div>

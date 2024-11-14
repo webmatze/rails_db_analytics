@@ -6,6 +6,18 @@ module RailsDbAnalytics
       @report = report
     end
 
+    def refresh_icon
+      helpers.send(:icon, :refresh, class: "mr-2")
+    end
+
+    def button_classes
+      helpers.send(:button_classes, :primary)
+    end
+
+    def before_render
+      @refresh_url = controller.refresh_saved_report_path(@report)
+    end
+
     private
 
     def render_data_section(title, data)
@@ -44,7 +56,7 @@ module RailsDbAnalytics
     end
 
     def chart_data?
-      @report.report_data.any? { |_k, v| numeric_data?(v) }
+      @report.report_instance.to_chart_js_data(@report.report_data).present?
     end
 
     def numeric_data?(data)

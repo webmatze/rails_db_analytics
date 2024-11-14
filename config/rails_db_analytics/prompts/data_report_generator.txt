@@ -6,7 +6,9 @@ class <your_class_name> < RailsDbAnalytics::DataReport
   # put your code here
 end
 If needed, use the schema to generate dynamic SQL queries.
-Do not use Arel to build SQL queries.
+Only use ActiveRecord::Relation methods to build SQL queries for Rails version 6 and above.
+Do not use Arel to build SQL queries only use ActiveRecord::Relation methods.
+Do not use Arel inside of left_outer_joins by using arel_table or similar.
 Do not use union, except, or any other SQL clauses that are not supported by the database adapter: {{database_name}}.
 Only generate code that is compatible with Ruby on Rails versions higher than 6.0.
 Make sure the generated class is valid Ruby code and can be loaded with `eval`.

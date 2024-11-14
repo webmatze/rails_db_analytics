@@ -23,6 +23,11 @@ module RailsDbAnalytics
       raise NotImplementedError, "#{self.class} must implement #format_data"
     end
 
+    # This method should be overridden by subclasses to format the data for Chart.js
+    def to_chart_js_data(data)
+      raise NotImplementedError, "#{self.class} must implement #to_chart_js_data"
+    end
+
     def execute
       data = report_data
       format_data(data)

@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
-import { Chart, LineController, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js'
+import { Chart, BarController, CategoryScale, LinearScale, BarElement } from 'chart.js'
 
 // Register the required components
-Chart.register(LineController, CategoryScale, LinearScale, PointElement, LineElement)
+Chart.register(BarController, CategoryScale, LinearScale, BarElement)
 
 export default class extends Controller {
   static targets = ["canvas"]
@@ -21,11 +21,8 @@ export default class extends Controller {
     const canvas = this.canvasTarget
     const data = JSON.parse(canvas.dataset.chartData)
     
-    // Find numeric data suitable for charting
-    const chartableData = this.extractChartableData(data)
-    
-    if (chartableData) {
-      this.createChart(canvas, chartableData)
+    if (data) {
+      this.createChart(canvas, data)
     }
   }
 
@@ -78,22 +75,6 @@ export default class extends Controller {
   }
 
   createChart(canvas, data) {
-    this.chart = new Chart(canvas, {
-      type: 'line',
-      data,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: data.datasets[0].label
-          }
-        }
-      }
-    })
+    this.chart = new Chart(canvas, {type: 'bar', data: data})
   }
 }
