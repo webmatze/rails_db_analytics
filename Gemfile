@@ -16,3 +16,5 @@ gem "importmap-rails", "~> 1.2"
 gem "propshaft", "~> 1.1"
 gem "stimulus-rails", "~> 1.3"
 gem "tailwindcss-rails", "~> 3.0"
+
+gem "active_record_union", "~> 1.3"
