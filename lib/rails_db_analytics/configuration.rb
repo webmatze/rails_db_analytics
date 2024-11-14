@@ -24,6 +24,7 @@ module RailsDbAnalytics
       @importmap = Importmap::Map.new
       @importmap.draw(Engine.root.join("config/importmap.rb"))
       @tailwind_content = [
+        Engine.root.join("app/components/**/*.erb"),
         Engine.root.join("app/views/**/*.erb"),
         Engine.root.join("app/helpers/**/*.rb"),
         Engine.root.join("app/controllers/**/*.rb"),

@@ -7,8 +7,9 @@ module.exports = {
     './app/javascript/**/*.js',
     './app/views/**/*.{erb,haml,html,slim}',
     '/Users/mathiaskarstaedt/Workspace/cline/rails_db_analytics/app/views/**/*.erb',
-'/Users/mathiaskarstaedt/Workspace/cline/rails_db_analytics/app/helpers/**/*.rb',
-'/Users/mathiaskarstaedt/Workspace/cline/rails_db_analytics/app/controllers/**/*.rb',
+    '/Users/mathiaskarstaedt/Workspace/cline/rails_db_analytics/app/components/**/*.erb',
+    '/Users/mathiaskarstaedt/Workspace/cline/rails_db_analytics/app/helpers/**/*.rb',
+    '/Users/mathiaskarstaedt/Workspace/cline/rails_db_analytics/app/controllers/**/*.rb',
 '/Users/mathiaskarstaedt/Workspace/cline/rails_db_analytics/app/javascript/**/*.js',
 '/Users/mathiaskarstaedt/Workspace/cline/rails_db_analytics/app/assets/stylesheets/**/*.css' 
   ],
